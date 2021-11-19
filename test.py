@@ -11,6 +11,7 @@ from models.Generator import Generator
 from datasets.dataset import dataset_test
 import argparse
 import skimage
+from skimage import io
 
 # Evaluate
 def evaluate(gen, eval_loader, rand_pair, save_dir):
@@ -35,8 +36,8 @@ def evaluate(gen, eval_loader, rand_pair, save_dir):
         I_pred_1_2 = np.transpose(I_pred_1_2[0].data.cpu().numpy(), (1,2,0))
         I_pred_2_1 = np.transpose(I_pred_2_1[0].data.cpu().numpy(), (1,2,0))
 
-        skimage.io.imsave(join(save_dir, 'result1-2', '%s.png'%(name[0])), skimage.img_as_ubyte(I_pred_1_2))
-        skimage.io.imsave(join(save_dir, 'result2-1', '%s.png'%(name[0])), skimage.img_as_ubyte(I_pred_2_1))
+        io.imsave(join(save_dir, 'result1-2', '%s.png'%(name[0])), skimage.img_as_ubyte(I_pred_1_2))
+        io.imsave(join(save_dir, 'result2-1', '%s.png'%(name[0])), skimage.img_as_ubyte(I_pred_2_1))
 
         if rand_pair:
             I1 = np.transpose(I1[0].data.cpu().numpy(), (1,2,0))
