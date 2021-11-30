@@ -1,3 +1,6 @@
 venv/*
 .idea/*
 weights/
+logs/
+original_weights/
+checkpoints/

@@ -309,7 +309,7 @@ if __name__ == '__main__':
             test(gen, dis, epoch, test_loader, test_diff_loader, test_rand_loader, writer)
         
         # Save the model weight
-        torch.save(gen.state_dict(), join(args.save_weight_dir, 'Gen_%d'%epoch))
-        torch.save(dis.state_dict(), join(args.save_weight_dir, 'Dis_%d'%epoch))
+        torch.save(gen.state_dict(), join(args.save_weight_dir, 'Gen'))
+        torch.save(dis.state_dict(), join(args.save_weight_dir, 'Dis'))
 
     writer.close()
