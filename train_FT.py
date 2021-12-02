@@ -98,6 +98,9 @@ def train(gen, dis, opt_gen, opt_dis, epoch, train_loader, train_diff_loader, tr
         acc_gen_adv_loss += gen_adv_loss.data
         acc_dis_adv_loss += dis_adv_loss.data
         
+        print(gen_loss)
+        print(dis_loss)
+
         ## Update Generator
         if (batch_idx % 3) != 0:
             opt_gen.zero_grad()
