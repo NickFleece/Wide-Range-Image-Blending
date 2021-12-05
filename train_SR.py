@@ -68,7 +68,7 @@ def train(gen, dis, opt_gen, opt_dis, epoch, train_loader, writer):
         feat_rec_loss = mse(f_m, f_m_gt.detach()).mean() * batchSize
         
         # Feature Consistency Loss
-        feat_cons_loss = (mse(F_l[0], F_r[0]) + mse(F_l[1], F_r[1]) + mse(F_l[2], F_r[2])).mean() * batchSize        
+        # feat_cons_loss = (mse(F_l[0], F_r[0]) + mse(F_l[1], F_r[1]) + mse(F_l[2], F_r[2])).mean() * batchSize        
         
         # RaLSGAN Adversarial Loss
         real_label = torch.ones(batchSize,1).cuda(0)
@@ -76,12 +76,12 @@ def train(gen, dis, opt_gen, opt_dis, epoch, train_loader, writer):
         gen_adv_loss = ((fake - real.mean(0, keepdim=True) - fake_label) ** 2).mean() * batchSize * 0.002 * 0.9
         dis_adv_loss = (((real - fake.mean(0, keepdim=True) - real_label) ** 2).mean() + ((fake - real.mean(0, keepdim=True) + real_label) ** 2).mean()) * batchSize
         
-        gen_loss = pixel_rec_loss + mrf_loss.cuda(0) + feat_rec_loss + feat_cons_loss + gen_adv_loss
+        gen_loss = pixel_rec_loss + mrf_loss.cuda(0) + feat_rec_loss + gen_adv_loss
         dis_loss = dis_adv_loss
         acc_pixel_rec_loss += pixel_rec_loss.data
         acc_mrf_loss += mrf_loss.data
         acc_feat_rec_loss += feat_rec_loss.data
-        acc_feat_cons_loss += feat_cons_loss.data
+        # acc_feat_cons_loss += feat_cons_loss.data
         acc_gen_adv_loss += gen_adv_loss.data
         acc_dis_adv_loss += dis_adv_loss.data
         
