@@ -75,7 +75,7 @@ def train(gen, dis, opt_gen, opt_dis, epoch, train_loader, train_diff_loader, tr
         pixel_rec_loss = (mse(I_pred_split[0], I_l) + mse(I_pred_split[2], I_r)).mean() * batchSize + (mask * mse(I_pred_split[1][:batchSize_rec], I_m)).mean() * batchSize_rec
              
         # Texture Consistency Loss (IDMRF Loss)
-        mrf_loss = mrf((I_pred_split[1][:batchSize_rec].cuda(0)+1)/2.0, (I_m.cuda(0)+1)/2.0) * 0.01
+        # mrf_loss = mrf((I_pred_split[1][:batchSize_rec].cuda(0)+1)/2.0, (I_m.cuda(0)+1)/2.0) * 0.01
         
         # Feature Reconstruction Loss
         feat_rec_loss = mse(f_m[:batchSize_rec], f_m_gt.detach()).mean() * batchSize_rec
@@ -89,10 +89,9 @@ def train(gen, dis, opt_gen, opt_dis, epoch, train_loader, train_diff_loader, tr
         gen_adv_loss = ((fake - real.mean(0, keepdim=True) - fake_label) ** 2).mean() * batchSize * 0.002 * 0.9
         dis_adv_loss = (((real - fake.mean(0, keepdim=True) - real_label) ** 2).mean() + ((fake - real.mean(0, keepdim=True) + real_label) ** 2).mean()) * batchSize
         
-        gen_loss = pixel_rec_loss + mrf_loss.cuda(0) + feat_rec_loss + feat_cons_loss + gen_adv_loss
+        gen_loss = pixel_rec_loss + feat_rec_loss + feat_cons_loss + gen_adv_loss
         dis_loss = dis_adv_loss
         acc_pixel_rec_loss += pixel_rec_loss.data
-        acc_mrf_loss += mrf_loss.data
         acc_feat_rec_loss += feat_rec_loss.data
         acc_feat_cons_loss += feat_cons_loss.data
         acc_gen_adv_loss += gen_adv_loss.data
